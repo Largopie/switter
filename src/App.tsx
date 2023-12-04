@@ -1,5 +1,7 @@
+import { RouterProvider } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
+import { router } from './router';
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -22,6 +24,7 @@ function App() {
   return (
     <Wrapper>
       <GlobalStyles />
+      <RouterProvider router={router} />
     </Wrapper>
   );
 }
