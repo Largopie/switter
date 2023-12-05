@@ -2,6 +2,9 @@ import { RouterProvider } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import { router } from './router';
+import { useEffect, useState } from 'react';
+import LoadingScreen from './components/loading-screen';
+import { auth } from './firebase';
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -20,11 +23,20 @@ body {
 `;
 
 function App() {
-  
+  const [isLoading, setIsLoading] = useState(true);
+  const init = async () => {
+    await auth.authStateReady();
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    init();
+  }, []);
+
   return (
     <Wrapper>
       <GlobalStyles />
-      <RouterProvider router={router} />
+      {isLoading ? <LoadingScreen /> : <RouterProvider router={router} />}
     </Wrapper>
   );
 }
