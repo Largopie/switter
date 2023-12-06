@@ -28,7 +28,7 @@ type FormData = {
 export default function Join() {
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
-  const [errorMesssage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const { register, handleSubmit } = useForm<FormData>();
 
   const goLogin = () => {
@@ -36,7 +36,7 @@ export default function Join() {
   };
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    if(data.name === '' || data.email === '' || data.password === '') return;
+    if(isLoading || data.name === '' || data.email === '' || data.password === '') return;
 
     try {
       setErrorMessage('');
@@ -64,7 +64,7 @@ export default function Join() {
           <Input required type='email' {...register('email')} placeholder='email' />
           <Input required type='password' {...register('password')} placeholder='password' />
           <Input type='submit' value={isLoading ? 'Loading...' : 'Join'} />
-          {errorMesssage !== '' ? <Error>{errorMesssage}</Error> : null}
+          {errorMessage !== '' ? <Error>{errorMessage}</Error> : null}
         </Form>
         <GoAnotherPageWrapper>
           <GoAnotherPageText>이미 switter에 가입하셨나요?</GoAnotherPageText>
