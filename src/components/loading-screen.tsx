@@ -8,13 +8,8 @@ const Wrapper = styled.div`
   justify-content: center;
 `
 
-const Text = styled.span`
-  font-size: 4rem;
-  color: #A08CDD;
-`
-
 const Logo = styled.span`
-  font-size: 20rem;
+  font-size: 4rem;
   color: #A08CDD;
 `
 
@@ -22,7 +17,6 @@ export default function LoadingScreen() {
   return (
     <Wrapper>
       <Logo>𝕏</Logo>
-      <Text>Loading...</Text>
     </Wrapper>
   );
 }
