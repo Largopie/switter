@@ -105,3 +105,9 @@ export const GoAnotherPageBtn = styled.button`
     color: #fff;
   }
 `
+
+export const Error = styled.span`
+  font-size: 1rem;
+  font-weight: 600;
+  color: tomato;  
+`;
