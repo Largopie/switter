@@ -1,6 +1,13 @@
-import { AuthWrapper, Form, GitHubBtn, Input, LogoWrapper, SubTitle, Title, Wrapper } from "../components/auth-components";
+import { useNavigate } from "react-router-dom";
+import { AuthWrapper, Form, GitHubBtn, GoAnotherPageBtn, GoAnotherPageText, GoAnotherPageWrapper, Input, LogoWrapper, SubTitle, Title, Wrapper } from "../components/auth-components";
 
 export default function Login() {
+  const navigate = useNavigate();
+
+  const goJoin = () => {
+    navigate('/join');
+  }
+
   return (
     <Wrapper>
       <LogoWrapper>
@@ -15,6 +22,10 @@ export default function Login() {
           <Input type='password' name='password' placeholder='password' />
           <Input type='submit' value='Log in' />
         </Form>
+        <GoAnotherPageWrapper>
+          <GoAnotherPageText>switter에 가입하셨나요?</GoAnotherPageText>
+          <GoAnotherPageBtn onClick={goJoin}>회원가입</GoAnotherPageBtn>
+        </GoAnotherPageWrapper>
       </AuthWrapper>
     </Wrapper>
   );

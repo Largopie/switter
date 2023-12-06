@@ -63,7 +63,7 @@ export const Input = styled.input`
   border: 2px solid #D5D5D5;
   &:focus {
     outline: none;
-    border: 2px solid #A08CDD;
+    border: 2px solid #C3B3F5;
   }
   &[type="submit"] {
     background-color: #A08CDD;
@@ -73,8 +73,35 @@ export const Input = styled.input`
     font-size: 1rem;
     font-weight: 500;
     &:hover{
-      
       opacity: 0.7;
     }
   }
 `;
+
+export const GoAnotherPageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`
+
+export const GoAnotherPageText = styled.span`
+  font-size: 1.15rem;
+  font-weight: 600;
+`
+
+export const GoAnotherPageBtn = styled.button`
+  width: 50%;
+  color: #A08CDD;
+  background-color: #fff;
+  border: 1px solid #A08CDD;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+    background: #C3B3F5;
+    color: #fff;
+  }
+`
