@@ -1,5 +1,6 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { auth } from '../firebase';
 
 const MenuWrapper = styled.div`
   display: flex;
@@ -54,6 +55,9 @@ const MenuItem = styled(NavLink)`
     font-weight: bold;
     color: #a08cdd;
   }
+  &:hover > div {
+    color: #a08cdd;
+  }
 `;
 
 const MenuIcon = styled.div`
@@ -66,8 +70,30 @@ const MenuText = styled.span`
   justify-content: center;
 `;
 
+const LogoutBtn = styled.span`
+  margin-top: 8px;
+  display: flex;
+  padding: 16px 10px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+  background-color: #ec7f69;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
+
 export default function Menu() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const clickLogout = async () => {
+    await auth.signOut();
+    navigate('/login');
+  }
 
   return (
     <MenuWrapper>
@@ -231,29 +257,8 @@ export default function Menu() {
         </MenuItem>
         <MenuItem to='premium'>
           <MenuIcon>
-            <svg
-              version='1.0'
-              xmlns='http://www.w3.org/2000/svg'
-              width='24px'
-              height='24px'
-              viewBox='0 0 488.000000 459.000000'
-              preserveAspectRatio='xMidYMid meet'
-            >
-              <g transform='translate(0.000000,459.000000) scale(0.100000,-0.100000)' fill={location.pathname === '/premium' ? '#a08cdd' : '#000000'} stroke='none'>
-                <path
-                  d='M14 4579 c-2 -3 160 -224 359 -490 199 -266 622 -832 940 -1257 l578
--773 -37 -42 c-21 -23 -446 -482 -944 -1020 -498 -539 -907 -983 -908 -988 -2
--5 85 -9 210 -8 l213 1 70 77 c39 42 401 433 805 870 404 437 746 807 760 823
-l25 29 200 -268 c110 -147 413 -553 673 -901 l474 -632 725 0 c603 0 724 2
-720 13 -3 8 -187 256 -409 553 -222 296 -476 636 -564 754 -89 118 -350 469
--582 778 -232 310 -422 568 -422 572 0 7 1226 1338 1643 1783 l119 127 -219 0
--218 -1 -255 -276 c-140 -152 -483 -524 -763 -825 l-507 -548 -615 822 -616
-823 -725 5 c-399 3 -728 2 -730 -1z m1718 -886 c237 -318 603 -807 813 -1088
-210 -280 676 -904 1036 -1385 360 -482 658 -881 663 -888 6 -9 -65 -12 -324
--12 l-331 0 -656 878 c-1514 2023 -2278 3045 -2287 3060 -6 9 62 12 323 12
-l331 0 432 -577z'
-                />
-              </g>
+            <svg fill='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' aria-hidden='true'>
+              <path d='M 0.0703125 0.0585938 C 0.0585938 0.0742188 0.855469 1.226562 1.835938 2.617188 C 2.8125 4.007812 4.894531 6.96875 6.457031 9.1875 L 9.300781 13.226562 L 9.117188 13.449219 C 9.015625 13.566406 6.925781 15.96875 4.476562 18.777344 C 2.027344 21.597656 0.015625 23.917969 0.0117188 23.941406 C 0 23.96875 0.429688 23.988281 1.042969 23.984375 L 2.089844 23.980469 L 2.433594 23.578125 C 2.625 23.355469 4.40625 21.3125 6.394531 19.03125 C 8.378906 16.746094 10.0625 14.8125 10.132812 14.726562 L 10.253906 14.578125 L 11.238281 15.976562 C 11.777344 16.746094 13.269531 18.867188 14.546875 20.6875 L 16.878906 23.988281 L 20.445312 23.988281 C 23.410156 23.988281 24.003906 23.980469 23.984375 23.921875 C 23.96875 23.878906 23.066406 22.582031 21.972656 21.03125 C 20.882812 19.484375 19.632812 17.707031 19.199219 17.089844 C 18.761719 16.472656 17.480469 14.640625 16.335938 13.023438 C 15.195312 11.402344 14.261719 10.054688 14.261719 10.035156 C 14.261719 10 20.292969 3.042969 22.34375 0.714844 L 22.929688 0.0507812 L 21.851562 0.0507812 L 20.777344 0.0585938 L 19.523438 1.5 C 18.835938 2.292969 17.148438 4.238281 15.773438 5.8125 L 13.277344 8.675781 L 10.253906 4.378906 L 7.222656 0.078125 L 3.660156 0.0507812 C 1.695312 0.0351562 0.078125 0.0429688 0.0703125 0.0585938 Z M 8.519531 4.6875 C 9.683594 6.351562 11.484375 8.90625 12.515625 10.375 C 13.550781 11.839844 15.839844 15.097656 17.613281 17.613281 C 19.382812 20.132812 20.847656 22.21875 20.871094 22.253906 C 20.902344 22.300781 20.550781 22.316406 19.277344 22.316406 L 17.652344 22.316406 L 14.425781 17.726562 C 6.980469 7.15625 3.222656 1.8125 3.175781 1.734375 C 3.148438 1.6875 3.480469 1.671875 4.765625 1.671875 L 6.394531 1.671875 Z M 8.519531 4.6875 ' />
             </svg>
           </MenuIcon>
           <MenuText>Premium</MenuText>
@@ -302,6 +307,7 @@ l331 0 432 -577z'
           </MenuIcon>
           <MenuText>More</MenuText>
         </MenuItem>
+        <LogoutBtn onClick={clickLogout}>Logout</LogoutBtn>
       </MenuSubWrapper>
     </MenuWrapper>
   );
