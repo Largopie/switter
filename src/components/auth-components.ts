@@ -40,25 +40,10 @@ export const Form = styled.form`
   gap: 10px;
 `;
 
-export const GitHubBtn = styled.button`
-  width: 50%;
-  padding: 10px 20px;
-  font-size: 1rem;
-  font-weight: 500;
-  background-color: #A08CDD;
-  border-radius: 30px;
-  border: none;
-  cursor: pointer;
-  color: #fff;
-  font-size: 1rem;
-  &:hover{
-    opacity: 0.7;
-  }
-`
-
 export const Input = styled.input`
   padding: 10px 20px;
   width: 50%;
+  font-size: 1.25rem;
   border-radius: 30px;
   border: 2px solid #D5D5D5;
   &:focus {

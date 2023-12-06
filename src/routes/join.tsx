@@ -3,7 +3,6 @@ import {
   AuthWrapper,
   Error,
   Form,
-  GitHubBtn,
   GoAnotherPageBtn,
   GoAnotherPageText,
   GoAnotherPageWrapper,
@@ -18,12 +17,13 @@ import { useState } from 'react';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase';
 import { FirebaseError } from 'firebase/app';
+import GithubButton from '../components/github-btn';
 
 type FormData = {
-  name: string
-  email: string
-  password: string
-}
+  name: string;
+  email: string;
+  password: string;
+};
 
 export default function Join() {
   const navigate = useNavigate();
@@ -36,21 +36,21 @@ export default function Join() {
   };
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    if(isLoading || data.name === '' || data.email === '' || data.password === '') return;
+    if (isLoading || data.name === '' || data.email === '' || data.password === '') return;
 
     try {
       setErrorMessage('');
       setLoading(true);
       const credential = await createUserWithEmailAndPassword(auth, data.email, data.password);
 
-      await updateProfile(credential.user, {displayName: data.name});
+      await updateProfile(credential.user, { displayName: data.name });
       navigate('/');
     } catch (error) {
-      if(error instanceof FirebaseError) setErrorMessage(error.message);
+      if (error instanceof FirebaseError) setErrorMessage(error.message);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <Wrapper>
@@ -58,7 +58,7 @@ export default function Join() {
       <AuthWrapper>
         <Title>지금 일어나고 있는 일</Title>
         <SubTitle>지금 가입하세요.</SubTitle>
-        <GitHubBtn>깃허브 회원가입</GitHubBtn>
+        <GithubButton />
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Input required type='text' {...register('name')} placeholder='name' />
           <Input required type='email' {...register('email')} placeholder='email' />
