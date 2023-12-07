@@ -17,6 +17,9 @@ ${reset}
   box-sizing: border-box;
 }
 body {
+  ::-webkit-scrollbar {
+    display: none;
+  }
   background: #fff;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
@@ -27,7 +30,7 @@ function App() {
   const init = async () => {
     await auth.authStateReady();
     setLoading(false);
-  }
+  };
 
   useEffect(() => {
     init();

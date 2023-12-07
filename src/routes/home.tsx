@@ -1,13 +1,15 @@
 import styled from "styled-components";
 import PostTweetForm from "../components/post-tweet-form";
+import Timeline from "../components/timeline";
 
 const Wrapper = styled.div`
-  height: 100%;
+  height: 100vh;
   display: flex;
 `;
 
 const LeftWrapper = styled.div`
   flex: 1.5;
+  height: 100%;
   display: flex;
   flex-direction: column;
   border-right: 1px solid #D5D5D5;
@@ -46,6 +48,7 @@ export default function Home() {
         <HeaderBtn>Following</HeaderBtn>
       </HeaderWrapper>
       <PostTweetForm />
+      <Timeline />
     </LeftWrapper>
     <RightWrapper>
       RightWrapper
