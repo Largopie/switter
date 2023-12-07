@@ -3,17 +3,17 @@ import styled from 'styled-components';
 import { auth } from '../firebase';
 
 const MenuWrapper = styled.div`
+  height: 100vh;
   display: flex;
   padding-top: 4px;
   margin-left: 4rem;
-  align-items: flex-end;
-  width: 20%;
+  align-items: flex-start;
+  border-right: 1px solid #d5d5d5;
 `;
 
 const MenuSubWrapper = styled.div`
   display: flex;
   padding: 0px 20px;
-  width: 80%;
   flex-direction: column;
   gap: 0.25rem;
 `;
@@ -42,7 +42,6 @@ const Logo = styled.span`
 const MenuItem = styled(NavLink)`
   text-decoration: none;
   color: #000;
-  font-size: 1.25rem;
   cursor: pointer;
   display: flex;
   gap: 1rem;
@@ -52,23 +51,44 @@ const MenuItem = styled(NavLink)`
     background-color: #f6f4fd;
   }
   &.active {
-    font-weight: bold;
     color: #a08cdd;
   }
   &:hover > div {
     color: #a08cdd;
+    font-size: 1.25rem;
+  }
+  @media screen and (max-width: 1280px) {
+    gap: 0;
+    width: 52px;
+    height: 52px;
   }
 `;
 
 const MenuIcon = styled.div`
-  min-width: 28px;
+  width: 28px;
+  height: 28px;
 `;
 
 const MenuText = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 1280px) {
+    display: none;
+  }
 `;
+
+const LogoutIcon = styled.div`
+  display: none;
+  width: 28px;
+  height: 28px;
+  @media screen and (max-width: 1280px){
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 2px;
+  }
+`
 
 const LogoutBtn = styled.span`
   margin-top: 8px;
@@ -84,6 +104,9 @@ const LogoutBtn = styled.span`
   &:hover {
     opacity: 0.7;
   }
+  @media screen and (max-width: 1280px){
+    padding: 12px;
+  }
 `;
 
 export default function Menu() {
@@ -93,7 +116,7 @@ export default function Menu() {
   const clickLogout = async () => {
     await auth.signOut();
     navigate('/login');
-  }
+  };
 
   return (
     <MenuWrapper>
@@ -101,7 +124,7 @@ export default function Menu() {
         <LogoWrapper>
           <Logo>𝕏</Logo>
         </LogoWrapper>
-        <MenuItem to='/'>
+        <MenuItem title='Home' to='/'>
           <MenuIcon>
             {location.pathname === '/' ? (
               <svg fill='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' aria-hidden='true'>
@@ -142,7 +165,7 @@ export default function Menu() {
           </MenuIcon>
           <MenuText>Explore</MenuText>
         </MenuItem>
-        <MenuItem to='/notifications'>
+        <MenuItem title='Notifications' to='/notifications'>
           <MenuIcon>
             {location.pathname === '/notifications' ? (
               <svg fill='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' aria-hidden='true'>
@@ -307,7 +330,18 @@ export default function Menu() {
           </MenuIcon>
           <MenuText>More</MenuText>
         </MenuItem>
-        <LogoutBtn onClick={clickLogout}>Logout</LogoutBtn>
+        <LogoutBtn onClick={clickLogout}>
+          <LogoutIcon>
+            <svg fill='none' stroke='currentColor' strokeWidth={2} viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' aria-hidden='true'>
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1'
+              />
+            </svg>
+          </LogoutIcon>
+          <MenuText>Logout</MenuText>
+        </LogoutBtn>
       </MenuSubWrapper>
     </MenuWrapper>
   );
