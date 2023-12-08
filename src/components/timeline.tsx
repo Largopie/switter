@@ -42,5 +42,5 @@ export default function Timeline() {
     }
   }, []);
 
-  return <Wrapper>{tweets.map((tweet) => <Tweet {...tweet} />)}</Wrapper>;
+  return <Wrapper>{tweets.map((tweet) => <Tweet key={tweet.id} {...tweet} />)}</Wrapper>;
 }
