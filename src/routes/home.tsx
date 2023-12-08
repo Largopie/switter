@@ -10,6 +10,7 @@ const Wrapper = styled.div`
 const LeftWrapper = styled.div`
   flex: 1.5;
   height: 100%;
+  max-width: 690px;
   display: flex;
   flex-direction: column;
   border-right: 1px solid #D5D5D5;
@@ -20,6 +21,9 @@ const RightWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 1000px){
+    display: none;
+  }
 `;
 
 const HeaderWrapper = styled.div`

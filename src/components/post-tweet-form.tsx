@@ -37,6 +37,7 @@ const AvatarSVGWrapper = styled.div`
 
 const Avatar = styled.img`
   width: 100%;
+  border-radius: 10px;
 `;
 
 const Form = styled.form`
