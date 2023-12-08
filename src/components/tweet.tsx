@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import { ATweet } from './timeline';
 import { auth, db, storage } from '../firebase';
-import { deleteDoc, doc } from 'firebase/firestore';
+import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
+import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 const Wrapper = styled.div`
   display: flex;
@@ -66,10 +68,11 @@ const MoreWrapper = styled.div`
   display: flex;
 `;
 
-const Button = styled.button<{ color: string }>`
+const Button = styled.button<{ color: string, hidden: boolean }>`
   width: 36px;
   height: 36px;
   border: none;
+  display: ${({hidden}) => hidden ? 'hidden' : 'block'};
   cursor: pointer;
   background-color: transparent;
   border-radius: 50%;
@@ -80,8 +83,82 @@ const Button = styled.button<{ color: string }>`
   }
 `;
 
+const UpdatePayload = styled.textarea`
+  padding: 20px;
+  border-radius: 20px;
+  font-size: 1rem;
+  background-color: #fff;
+  width: 100%;
+  resize: none;
+  border: 2px solid #a08cdd;
+  color: #a08cdd;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  &:focus {
+    outline: none;
+  }
+`;
+
+const UpdateWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const UpdateButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+`;
+
+const UpdateButton = styled.span`
+  margin: 4px;
+  padding: 5px 10px;
+  border: 2px solid #a08cdd;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    color: #b09cf7;
+    background-color: #eae4ff;
+  }
+`;
+
+interface updateForm {
+  updateData: string;
+}
+
 export default function Tweet({ photo, tweet, userId, username, id }: ATweet) {
   const user = auth.currentUser;
+  const [isUpdate, setUpdate] = useState(false);
+  const { register, handleSubmit, setValue } = useForm<updateForm>({
+    defaultValues: {
+      updateData: tweet,
+    },
+  });
+
+  const onUpdate = () => {
+    setUpdate(!isUpdate);
+  };
+
+  const onSubmitUpdate: SubmitHandler<updateForm> = async (data) => {
+    if (data.updateData === '' || data.updateData.length > 180) return;
+
+    const ok = confirm('Are you update your tweet?');
+
+    if (ok) {
+      await updateDoc(doc(db, 'tweets', id), {
+        tweet: data.updateData
+      })
+      setUpdate(false)
+    }
+  }
+
+  const cancelUpdate = () => {
+    const ok = confirm('Are you cancel Update?');
+
+    if (ok) {
+      setUpdate(false);
+      setValue('updateData', tweet);
+    }
+  }
 
   const onDelete = async () => {
     const ok = confirm('Are you sure you want to delete this tweet?');
@@ -116,14 +193,24 @@ export default function Tweet({ photo, tweet, userId, username, id }: ATweet) {
           <Username>{username}</Username>
         </UsernameWrapper>
         <PayLoadWrapper>
-          <Payload>{tweet}</Payload>
+          {isUpdate ? (
+            <UpdateWrapper>
+              <UpdatePayload {...register('updateData')} />
+              <UpdateButtonWrapper>
+                <UpdateButton onClick={cancelUpdate}>취소</UpdateButton>
+                <UpdateButton onClick={handleSubmit(onSubmitUpdate)}>수정</UpdateButton>
+              </UpdateButtonWrapper>
+            </UpdateWrapper>
+          ) : (
+            <Payload>{tweet}</Payload>
+          )}
         </PayLoadWrapper>
         <PhotoWrapper>{photo ? <Photo src={photo} /> : null}</PhotoWrapper>
       </SubWrapper>
       <MoreWrapper>
         {user?.uid === userId ? (
           <>
-            <Button color='#000'>
+            <Button onClick={onUpdate} hidden={isUpdate} color='#000'>
               <svg fill='none' stroke='currentColor' strokeWidth={1.5} viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' aria-hidden='true'>
                 <path
                   strokeLinecap='round'
@@ -132,7 +219,7 @@ export default function Tweet({ photo, tweet, userId, username, id }: ATweet) {
                 />
               </svg>
             </Button>
-            <Button onClick={onDelete} color='tomato'>
+            <Button onClick={onDelete} hidden={false} color='tomato'>
               <svg fill='none' stroke='currentColor' strokeWidth={1.5} viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' aria-hidden='true'>
                 <path
                   strokeLinecap='round'
