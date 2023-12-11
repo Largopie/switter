@@ -12,11 +12,16 @@ import Bookmarks from './routes/bookmarks';
 import Communities from './routes/communities';
 import Premium from './routes/premium';
 import More from './routes/more';
+import ProtectedRoute from './routes/protected-route';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <GeneralLayout />,
+    element: (
+      <ProtectedRoute>
+        <GeneralLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: '',
@@ -66,6 +71,6 @@ export const router = createBrowserRouter([
   },
   {
     path: '/join',
-    element: <Join />
-  }
+    element: <Join />,
+  },
 ]);
