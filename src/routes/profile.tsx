@@ -1,10 +1,13 @@
 import styled from 'styled-components';
-import { auth, storage } from '../firebase';
+import { auth, db, storage } from '../firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HeaderWrapper, LeftWrapper, RightWrapper, Wrapper } from '../components/page-components';
 import { useNavigate } from 'react-router-dom';
 import { updateProfile } from 'firebase/auth';
+import { collection, getDocs, limit, orderBy, query, where } from 'firebase/firestore';
+import { ATweet } from '../components/timeline';
+import Tweet from '../components/tweet';
 
 const AvatarWrapper = styled.div`
   width: 5.625rem;
@@ -88,15 +91,32 @@ const Email = styled.span`
   color: #808080;
 `;
 
+const MyTweets = styled.div`
+  flex: 1;
+  overflow-y: scroll;
+`;
+
 export default function Profile() {
   const navigate = useNavigate();
+  const user = auth.currentUser;
+  const [avatar, setAvatar] = useState(user?.photoURL);
+  const [tweets, setTweets] = useState<ATweet[]>([]);
 
   const goBack = () => {
     navigate(-1);
   };
 
-  const user = auth.currentUser;
-  const [avatar, setAvatar] = useState('');
+  const fetchTweets = async () => {
+    const tweetQuery = query(collection(db, 'tweets'), where('userId', '==', user?.uid), orderBy('createdAt', 'desc'), limit(25));
+    const snapshot = await getDocs(tweetQuery);
+    const tweets = snapshot.docs.map((doc) => {
+      const { photo, tweet, userId, username, createdAt } = doc.data();
+
+      return { tweet, createdAt, userId, username, photo, id: doc.id };
+    });
+
+    setTweets(tweets);
+  };
 
   const onAvatarCahnge = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -115,6 +135,10 @@ export default function Profile() {
       });
     }
   };
+
+  useEffect(() => {
+    fetchTweets();
+  }, []);
 
   return (
     <Wrapper>
@@ -148,6 +172,11 @@ export default function Profile() {
           <Name>{user?.displayName ?? 'Anonymous'}</Name>
           <Email>@{user?.email ?? 'Anonymous'}</Email>
         </ProfileWrapper>
+        <MyTweets>
+          {tweets.map((tweet) => (
+            <Tweet key={tweet.id} {...tweet} />
+          ))}
+        </MyTweets>
       </LeftWrapper>
       <RightWrapper>rightWrapper</RightWrapper>
     </Wrapper>
