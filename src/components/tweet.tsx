@@ -59,8 +59,8 @@ const PhotoWrapper = styled.div`
 `;
 
 const Photo = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  height: 100%;
   border-radius: 15px;
 `;
 
@@ -68,11 +68,11 @@ const MoreWrapper = styled.div`
   display: flex;
 `;
 
-const Button = styled.button<{ color: string, hidden: boolean }>`
+const Button = styled.button<{ color: string; hidden: boolean }>`
   width: 36px;
   height: 36px;
   border: none;
-  display: ${({hidden}) => hidden ? 'hidden' : 'block'};
+  display: ${({ hidden }) => (hidden ? 'hidden' : 'block')};
   cursor: pointer;
   background-color: transparent;
   border-radius: 50%;
@@ -145,11 +145,11 @@ export default function Tweet({ photo, tweet, userId, username, id }: ATweet) {
 
     if (ok) {
       await updateDoc(doc(db, 'tweets', id), {
-        tweet: data.updateData
-      })
-      setUpdate(false)
+        tweet: data.updateData,
+      });
+      setUpdate(false);
     }
-  }
+  };
 
   const cancelUpdate = () => {
     const ok = confirm('Are you cancel Update?');
@@ -158,7 +158,7 @@ export default function Tweet({ photo, tweet, userId, username, id }: ATweet) {
       setUpdate(false);
       setValue('updateData', tweet);
     }
-  }
+  };
 
   const onDelete = async () => {
     const ok = confirm('Are you sure you want to delete this tweet?');
