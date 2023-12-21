@@ -7,7 +7,9 @@ import LoadingScreen from './components/loading-screen';
 import { auth } from './firebase';
 
 const Wrapper = styled.div`
+  display: flex;
   height: 100vh;
+  justify-content: center;
 `;
 
 // basic color #A08CDD

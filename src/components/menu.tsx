@@ -6,7 +6,7 @@ const MenuWrapper = styled.div`
   height: 100vh;
   display: flex;
   padding-top: 4px;
-  margin-left: 4rem;
+  margin-left: 70px;
   align-items: flex-start;
   border-right: 1px solid #d5d5d5;
 `;

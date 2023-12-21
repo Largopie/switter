@@ -6,7 +6,6 @@ export const Wrapper = styled.div`
 `;
 
 export const LeftWrapper = styled.div`
-  flex: 1.5;
   height: 100%;
   max-width: 690px;
   display: flex;
@@ -15,7 +14,8 @@ export const LeftWrapper = styled.div`
 `;
 
 export const RightWrapper = styled.div`
-  flex: 1;
+  width: 350px;
+  margin-right: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
