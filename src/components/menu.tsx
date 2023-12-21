@@ -1,4 +1,4 @@
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { auth } from '../firebase';
 
@@ -32,11 +32,12 @@ const LogoWrapper = styled.div`
   }
 `;
 
-const Logo = styled.span`
+const Logo = styled(Link)`
   font-size: 2.25rem;
   font-weight: 700;
   border-radius: 50%;
   color: #a08cdd;
+  text-decoration: none;
 `;
 
 const MenuItem = styled(NavLink)`
@@ -82,13 +83,13 @@ const LogoutIcon = styled.div`
   display: none;
   width: 28px;
   height: 28px;
-  @media screen and (max-width: 1280px){
+  @media screen and (max-width: 1280px) {
     display: flex;
     align-items: center;
     justify-content: center;
     padding-left: 2px;
   }
-`
+`;
 
 const LogoutBtn = styled.span`
   margin-top: 8px;
@@ -104,7 +105,7 @@ const LogoutBtn = styled.span`
   &:hover {
     opacity: 0.7;
   }
-  @media screen and (max-width: 1280px){
+  @media screen and (max-width: 1280px) {
     padding: 12px;
   }
 `;
@@ -122,7 +123,7 @@ export default function Menu() {
     <MenuWrapper>
       <MenuSubWrapper>
         <LogoWrapper>
-          <Logo>𝕏</Logo>
+          <Logo to='/'>𝕏</Logo>
         </LogoWrapper>
         <MenuItem title='Home' to='/'>
           <MenuIcon>
