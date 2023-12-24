@@ -1,30 +1,19 @@
-# React + TypeScript + Vite
+# Switter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+트위터의 일부 기능을 구현한 웹사이트입니다. 트위터의 모든 기능을 사용할 수는 없지만, 해당 프로젝트를 지속적으로 개발하여 트위터의 전반적인 기능을 구현할 예정입니다.
 
-Currently, two official plugins are available:
+### 배포 주소
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+| https://nwitter-firebase-8bad9.web.app
 
-## Expanding the ESLint configuration
+### 구현 기능
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- 회원
+  - 회원가입
+  - 로그인
+- 게시글
+  - 게시글 작성(사진 1개 업로드 가능)
+  - 게시글 수정 및 삭제
+- 프로필(마이페이지)
+  - 프로필 사진 변경
+  - 내 게시글 모아보기
